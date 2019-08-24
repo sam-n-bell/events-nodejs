@@ -1,6 +1,7 @@
 
 
 let services = {
-    users: require('./users')
+    users: require('./users'),
+    authentication: require('./authenication')
 }
 module.exports = services
