@@ -4,6 +4,8 @@ let authenicate = require('../middleware/authenticate')
 //Module imports
 let users = require('./users');
 let authentication = require('./authentication')
+let venues = require('./venues')
+
 
 routes.post('/register', async (req, res) => {
     try {
@@ -12,8 +14,11 @@ routes.post('/register', async (req, res) => {
         res.status(500).send("error")
     }
 });
+
+routes.use('/authentication', authentication);
+
 //Mounting
 routes.use('/users', authenicate.authenicate_user, users);
-routes.use('/authentication', authentication);
+routes.use('/venues', authenicate.authenicate_user, venues);
 
 module.exports = routes;

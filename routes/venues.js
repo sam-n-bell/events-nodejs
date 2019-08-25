@@ -1,7 +1,7 @@
 var express = require('express')
 var venues = express.Router()
 let db = require('../db');
-// let UsersController = require ('../controllers/users.controller');
+let VenuesController = require ('../controllers/venues.controller');
 
 
 
@@ -15,26 +15,27 @@ var validator = new Validator({allErrors: true}); // pass in options to the Ajv 
 var validate = validator.validate;
 
 // JSON Schema
-var user_schema = {
+var venue_schema = {
     type: 'object',
-    required: ['user_name', 'email', 'password', 'administrator'],
+    required: ['name', 'address', 'activities'],
     properties: {
-        user_name: {
+        name: {
             type: 'string'
         },
-        email: {
+        address: {
             type: 'string'
         },
-        password: {
+        activities: {
             type: 'string'
-        },
-        administrator: {
-            type: 'boolean'
         }
     }
 }
 
 venues.get('/', VenuesController.getAllVenues);
+venues.get('/:venueId/availability', VenuesController.getVenueAvailability);
+venues.post('/', validate({body: venue_schema}), VenuesController.createVenue);
+venues.delete('/:venueId', VenuesController.deleteVenue);
+
 
 
 module.exports = venues;
