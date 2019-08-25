@@ -1,7 +1,7 @@
 var express = require('express')
-var users = express.Router()
-const db = require('../db');
-const UsersController = require ('../controllers/users.controller');
+var venues = express.Router()
+let db = require('../db');
+// let UsersController = require ('../controllers/users.controller');
 
 
 
@@ -34,9 +34,7 @@ var user_schema = {
     }
 }
 
-users.get('/', UsersController.getAllUsers);
-
-users.post('/', validate({body: user_schema}),UsersController.createUser);
+venues.get('/', VenuesController.getAllVenues);
 
 
-module.exports = users;
+module.exports = venues;

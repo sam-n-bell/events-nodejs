@@ -6,8 +6,7 @@ const services = require('../services/index');
 let UsersController = {
     getAllUsers: async function (req, res) {
         try {
-                let users = await db.many(`select * from users`);
-            
+                let users = await db.many(`select user_id, user_name, email, administrator, date_created from users`);
                 res.json(users);
             } catch (err) {
                 res.status(500).send({err: err.message});

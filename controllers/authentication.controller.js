@@ -19,15 +19,8 @@ let AuthenticationController = {
     },
     authenticateUser: async function (req, res) {
         try {
-            let auth_header = req.headers.authorization;
-            if (_.isNil(auth_header)) {
-                throw Error('Missing authentication header');
-            } else if (auth_header.split(' ')[0] !== 'Bearer') {
-                throw Error('Invalid authentication header');
-            } else if (_.isNil(auth_header.split(' ')[1])) {
-                throw Error('Invalid authentication header');
-            }
-            let decoded = await services.authentication.decodeToken(auth_header.split(' ')[1]);
+            let token = services.authentication.getTokenFromHeader(req.headers.authorization);
+            let decoded = await services.authentication.decodeToken(token);
             let user = decoded.user;
             if (!_.isNil(user.password)) {
                 delete user.password;

@@ -21,6 +21,17 @@ let authentication = {
             throw Error('Expired token');
         }
         return jwt.verify(token, process.env.SECRET_KEY)
+    },
+    getTokenFromHeader: function (auth_header) {
+        if (_.isNil(auth_header)) {
+            throw Error('Missing authentication header');
+        } else if (auth_header.split(' ')[0] !== 'Bearer') {
+            throw Error('Invalid authentication header');
+        } else if (_.isNil(auth_header.split(' ')[1])) {
+            throw Error('Invalid authentication header');
+        } else {
+            return auth_header.split(' ')[1];
+        }
     }
 
 }
