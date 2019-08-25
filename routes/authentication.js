@@ -1,6 +1,7 @@
 var express = require('express')
 var authentication = express.Router()
 let db = require('../db');
+let a = require('../controllers/authentication.controller')
 let AuthenticationController = require ('../controllers/authentication.controller.js');
 
 
@@ -28,6 +29,6 @@ var login_schema = {
 }
 
 authentication.post('/login', validate({body: login_schema}), AuthenticationController.loginUser );
-
+authentication.get('/user', AuthenticationController.authenticateUser);
 
 module.exports = authentication;

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 require('dotenv').config();
 require('babel-register');
 
+
 app.use(cors());
 
 app.use(bodyParser.json())// get route index file and mount it
