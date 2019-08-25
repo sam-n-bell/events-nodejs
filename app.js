@@ -14,7 +14,7 @@ app.use(bodyParser.json())// get route index file and mount it
 app.use('/v1', routes);
 
 app.get('/*', function(req, res){
-    res.json({message: 'How did you get here?'});
+    res.json({message: 'APAD Events App Rewrite by Sam Bell, University of Texas at Austin'});
 });
 
 // body JSON validator
