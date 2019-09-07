@@ -53,7 +53,8 @@ let events = {
     },
     isUserInEvent: async function(event_id, user_id) {
         let participant = await db.oneOrNone(`select * from participants where event_id = $1 and user_id = $2`, [event_id, user_id]);
-        if (_.isNil(participant)) {
+        console.log(participant)
+        if (!_.isNil(participant)) {
             throw Error ('Already in event');
         }
     },
@@ -63,7 +64,9 @@ let events = {
                                         count(p.participant_id) as number_of_participants 
                                         from events e 
                                         left join participants p on p.event_id = e.event_id
-                                        where e.event_id = $1`, [event_id]);
+                                        where e.event_id = $1
+                                        group by e.max_players`, [event_id]);
+        console.log(event)
         if (event.max_players < num_guests + 1) {
            throw Error('Not enough room to join');
         }
