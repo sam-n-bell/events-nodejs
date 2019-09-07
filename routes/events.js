@@ -1,21 +1,21 @@
-var express = require('express')
-var events = express.Router()
+let express = require('express')
+let events = express.Router()
 let db = require('../db');
 let EventsController = require ('../controllers/events.controller');
 
 
 
-var { Validator, ValidationError } = require('express-json-validator-middleware');
+let { Validator, ValidationError } = require('express-json-validator-middleware');
  
  
 // Initialize a Validator instance first
-var validator = new Validator({allErrors: true}); // pass in options to the Ajv instance
+let validator = new Validator({allErrors: true}); // pass in options to the Ajv instance
  
 // Define a shortcut function
-var validate = validator.validate;
+let validate = validator.validate;
 
 // JSON Schema
-var event_schema = {
+let event_schema = {
     type: 'object',
     required: ['created_by', 'event_day', 'name', 'num_guests', 'participant_comment', 'start_time', 'venue_id', 'max_players'],
     properties: {
@@ -44,6 +44,24 @@ var event_schema = {
 }
 
 events.post('/', validate({body: event_schema}), EventsController.createEvent);
+
+let join_event_schema = {
+    type: 'object',
+    required: ['user_id', 'num_guests', 'participant_comment'],
+    properties: {
+        num_guests: {
+            type: 'number'
+        },
+        participant_comment: {
+            type: 'string'
+        },
+        user_id: {
+            type: 'string'
+        }
+    }
+}
+
+events.post('/:eventId/join', validate({body: join_event_schema}), EventsController.joinEvent);
 
 
 

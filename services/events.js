@@ -30,11 +30,11 @@ let events = {
         await this.addParticipantToEvent(event.event_id, created_by, num_guests, participant_comment);
         return event;
     },
-    addParticipantToEvent: async function(event_id, created_by, num_guests, participant_comment) {
+    addParticipantToEvent: async function(event_id, user_id, num_guests, participant_comment) {
         await db.none(`insert into participants
                         (event_id, user_id, num_guests, comment)
                         values
-                        ($1, $2, $3, $4)`, [event_id, created_by, num_guests, participant_comment])
+                        ($1, $2, $3, $4)`, [event_id, user_id, num_guests, participant_comment])
     },
     getEventById: async function(event_id) {
         let event = await db.one(`select 

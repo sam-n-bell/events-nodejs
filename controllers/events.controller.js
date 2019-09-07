@@ -43,7 +43,7 @@ let EventsController = {
             let body = req.body;
             await services.events.isUserInEvent(req.params.event_id, body.user_id);
             await services.events.eventHasRoom(req.params.event_id, body.num_guests);
-            await services.events.addParticipantToEvent()
+            await services.events.addParticipantToEvent(req.params.event_id, body.user_id, body.num_guests, body.participant_comment);
             res.send('ok');
         } catch (err) {
                 res.status(500).send({message: err.message});
