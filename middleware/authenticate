@@ -1,7 +1,6 @@
 const db = require('../db');
-// const bcrypt = require('bcrypt');
-const _ = require('lodash')
-const services = require('../services/index')
+const _ = require('lodash');
+const services = require('../services/index');
 
 
 
@@ -10,13 +9,12 @@ let authentication = {
     authenicate_user: async function (req, res, next) {
         try {
             let token = services.authentication.getTokenFromHeader(req.headers.authorization);
-            let decoded = await services.authentication.decodeToken(token)
-            req.locals = {}
+            let decoded = await services.authentication.decodeToken(token);
+            req.locals = {};
             req.locals = decoded.user;
-            next()
+            next();
         } catch (err) {
-            console.log(err.message)
-            res.status(401).send('Invalid credentials from middleware')
+            res.status(401).send('Invalid credentials');
         }
     }
 

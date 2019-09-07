@@ -50,6 +50,23 @@ let events = {
                                     count(p.participant_id from participants)
                                     from events e
                                     where e.event_day = $2::DATE`, [day]);
+    },
+    isUserInEvent: async function(event_id, user_id) {
+        let participant = await db.oneOrNone(`select * from participants where event_id = $1 and user_id = $2`, [event_id, user_id]);
+        if (_.isNil(participant)) {
+            throw Error ('Already in event');
+        }
+    },
+    eventHasRoom: async function(event_id, num_guests) {
+        let event = await db.one(`select 
+                                        e.max_players, 
+                                        count(p.participant_id) as number_of_participants 
+                                        from events e 
+                                        left join participants p on p.event_id = e.event_id
+                                        where e.event_id = $1`, [event_id]);
+        if (event.max_players < num_guests + 1) {
+           throw Error('Not enough room to join');
+        }
     }
 }
 

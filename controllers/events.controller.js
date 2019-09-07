@@ -8,7 +8,7 @@ let EventsController = {
         try {
                 res.send('ok');
             } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     },
     //user_name, email, password, administrator
@@ -17,7 +17,7 @@ let EventsController = {
                 
             res.send('ok');
         } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     },
     cancelEvent: async function (req, res) {
@@ -25,7 +25,7 @@ let EventsController = {
                 
             res.send('ok');
         } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     },
     createEvent: async function (req, res) {
@@ -35,15 +35,18 @@ let EventsController = {
             await services.events.createEvent(body.created_by, body.name, body.event_day, body.start_time, body.venue_id, body.max_players, body.num_guests, body.participant_comment);
             res.send('ok');
         } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     },
     joinEvent: async function (req, res) {
         try {
-                
+            let body = req.body;
+            await services.events.isUserInEvent(req.params.event_id, body.user_id);
+            await services.events.eventHasRoom(req.params.event_id, body.num_guests);
+            await services.events.addParticipantToEvent()
             res.send('ok');
         } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     }
 }

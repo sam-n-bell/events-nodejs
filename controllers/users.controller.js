@@ -9,7 +9,7 @@ let UsersController = {
                 let users = await db.many(`select user_id, user_name, email, administrator, date_created from users`);
                 res.json(users);
             } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     },
     //user_name, email, password, administrator
@@ -22,7 +22,7 @@ let UsersController = {
                 let new_user = await services.users.createUser(body.user_name, body.email, body.password, body.administrator);
                 res.status(201).send('created');
             } catch (err) {
-                res.status(500).send({err: err.message});
+                res.status(500).send({message: err.message});
             }
     }
 }

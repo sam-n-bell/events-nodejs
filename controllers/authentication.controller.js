@@ -1,6 +1,6 @@
 let db = require('../db');
 const services = require('../services/index');
-const _ = require('lodash')
+const _ = require('lodash');
 
 let AuthenticationController = {
     loginUser: async function (req, res) {
@@ -14,7 +14,7 @@ let AuthenticationController = {
             }
             res.status(201).json({ user: user, token: token });
         } catch (err) {
-            res.status(500).send({ err: err.message });
+            res.status(500).send({ message: err.message });
         }
     },
     authenticateUser: async function (req, res) {
@@ -27,7 +27,7 @@ let AuthenticationController = {
             }
             res.json(user);
         } catch (err) {
-            res.status(500).send({ err: err.message });
+            res.status(500).send({ message: err.message });
         }
     },
 }
